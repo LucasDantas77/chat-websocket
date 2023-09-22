@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+#form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10%;
+    gap: 15px;
+}
+
+#form>button {
+
+    width: 50%;
+    max-width: 100px;
+    border-radius: 6px;
+    border: 1px solid #ffff;
+    padding: 6px;
+    background-color: rgb(137, 202, 239);
+    color: #fff;
+}
+
+#msg {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgb(169, 169, 169);
+}
