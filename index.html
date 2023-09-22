@@ -14,7 +14,11 @@
   </head>
   <body>
     <main>
-      <header>
+     
+
+      <ul id="mensagens"></ul>
+      <div id="status"></div>
+      <div class="div_form">
         <form id="form">
           <input
             type="text"
@@ -25,10 +29,7 @@
           />
           <button type="submit">Enviar</button>
         </form>
-      </header>
-
-      <ul id="mensagens"></ul>
-      <div id="status"></div>
+      </div>
     </main>
     <script>
       $(() => {
@@ -39,7 +40,7 @@
           return false;
         });
         socket.on("chat msg", (msg) => {
-         
+          $("#mensagens").append($("<li>").text(msg));
         });
       });
     </script>
