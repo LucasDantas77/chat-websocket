@@ -15,9 +15,14 @@ app.get("/", (req, resp) => {
 });
 
 serverSocket.on("connection", (socket) => {
-  console.log(`Cliente conectado ${socket.id}`);
+  socket.on("login", (nickname) => {
+    console.log(`Cliente conectado ${nickname}`);
+    serverSocket.emit("chat msg", `Usuario ${nickname} conectou`);
+    socket.nickname = nickname;
+  });
+
   socket.on("chat msg", (msg) => {
-    console.log(`Msg recebida do cliente ${socket.id}: ${msg}`);
-    serverSocket.emit("chat msg", msg);
+    console.log(`Msg recebida do cliente ${socket.nickname}: ${msg}`);
+    serverSocket.emit("chat msg", `${socket.nickname}: ${msg}`);
   });
 });

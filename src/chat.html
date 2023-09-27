@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Websocket</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <ul id="mensagens"></ul>
+      <div id="status"></div>
+      <div class="div_form">
+        <form id="form">
+          <input
+            type="text"
+            id="msg"
+            autofocus
+            autocomplete="off"
+            placeholder="Digite sua mensagem..."
+          />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </main>
+    <script>
+      $(document).ready(() => {
+        const nickname = localStorage.getItem("nickname");
+
+        if (nickname) {
+          const socket = io();
+          socket.nickname = nickname;
+
+          $("#form").submit((event) => {
+            if (socket.nickname == nickname) {
+              socket.emit("chat msg", $("#msg").val());
+            }
+
+            $("#msg").val("");
+            return false;
+          });
+
+          socket.on("chat msg", (msg) => {
+            $("#mensagens").append($("<li>").text(msg));
+          });
+        } else {
+          window.location.replace("/");
+        }
+      });
+    </script>
+  </body>
+</html>
