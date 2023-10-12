@@ -18,6 +18,7 @@ serverSocket.on("connection", (socket) => {
   socket.on("login", (nickname) => {
     console.log(`Cliente conectado ${nickname}`);
     serverSocket.emit("chat msg", `Usuario ${nickname} conectou`);
+
     socket.nickname = nickname;
   });
 

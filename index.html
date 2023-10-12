@@ -3,38 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Websocket</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <title>Document</title>
   </head>
   <body>
     <main>
-      <form id="form">
-        <input id="nickname" type="text" placeholder="digite seu nickname" />
-        <button id="btnEntrar" type="submit">Entrar</button>
-      </form>
+      <ul id="mensagens"></ul>
+      <div id="status"></div>
+      <div class="div_form">
+        <form id="form">
+          <input
+            type="text"
+            id="msg"
+            autofocus
+            autocomplete="off"
+            placeholder="Digite sua mensagem..."
+          />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
     </main>
-
     <script>
-      const socket = io();
-      socket.nickname = "";
-      $("#form").submit((event) => {
-        if (socket.nickname === "") {
-          const nickname = $("#nickname").val();
-          socket.nickname = nickname;
+      $(() => {
+        const socket = io();
+        socket.nickname = "";
+        $("#form").submit((event) => {
+          if (socket.nickname === "") {
+            socket.nickname = $("#msg").val();
+            socket.emit("login", $("#msg").val());
+          } else {
+            socket.emit("chat msg", $("#msg").val());
+          }
+          $("#msg").val("");
+          return false;
+        });
 
-          localStorage.setItem("nickname", nickname);
+        socket.on("chat msg", (msg) => {
+          $("#mensagens").append($("<li>").text(msg));
+        });
 
-          socket.emit("login", nickname);
-          window.location.replace("../chat.html");
-        }
-
-        $("#nickname").val("");
-        return false;
+        // $("#msg").keypress((event) => {
+        //   socket.emit("status", `${socket.nickname} está digitando...`);
+        // });
       });
     </script>
   </body>
